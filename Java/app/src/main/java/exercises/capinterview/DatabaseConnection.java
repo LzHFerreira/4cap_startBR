@@ -1,4 +1,4 @@
-package exercises2capinterview;
+package exercises.capinterview;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,9 +11,10 @@ public class DatabaseConnection {
 
     public static Connection getConnection() throws SQLException {
         if (connection == null) {
-            String url = "jdbc:mysql://localhost:3306/your_database_name";
-            String username = "your_username";
-            String password = "your_password";
+            // Replace these with your actual MySQL credentials
+            String url = "jdbc:mysql://localhost:3306/capinterview"; // Database name: capinterview
+            String username = "root";  // Default MySQL username
+            String password = System.getenv("DB_PASSWORD");
             connection = DriverManager.getConnection(url, username, password);
         }
         return connection;
@@ -21,7 +22,9 @@ public class DatabaseConnection {
 
     public static void closeConnection() throws SQLException {
         if (connection != null && !connection.isClosed()) {
-            connection.close();
+            connection.close();  // Close the connection
         }
     }
 }
+
+//todo: buld environment variable for DB_PASSWORD

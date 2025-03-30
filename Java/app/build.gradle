@@ -6,46 +6,49 @@
  */
 
 plugins {
-    // Apply the application plugin to add support for building a CLI application in Java.
+    // Aplica o plugin para criar um aplicativo CLI em Java.
     id 'application'
 }
 
 repositories {
-    // Use Maven Central for resolving dependencies.
+    // Usa o Maven Central para resolver dependências.
     mavenCentral()
 }
 
 dependencies {
-    // MySQL connector for database interaction
-    implementation 'mysql:mysql-connector-java:8.0.26'
+    // ✅ Conector MySQL atualizado para evitar erros de compatibilidade.
+    implementation 'mysql:mysql-connector-java:8.0.33' 
 
-    // JUnit 5 dependencies for unit testing
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    // ✅ Biblioteca Guava para utilitários adicionais.
+    implementation 'com.google.guava:guava:32.0.1-jre'
 
-    // Guava library for additional utilities
-    implementation 'com.google.guava:guava:31.0-jre'
+    // ✅ Configuração de logging com SLF4J e Logback.
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+    implementation 'ch.qos.logback:logback-classic:1.4.11'
 
-    // Mockito for mocking in tests
-    testImplementation 'org.mockito:mockito-core:4.5.1'
+    // ✅ JUnit 5 para testes unitários.
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
 
-    // For running JUnit tests
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.8.2'
+    // ✅ Mockito para testes unitários (mocking).
+    testImplementation 'org.mockito:mockito-core:5.7.0'
+
+    // ✅ Dependência recomendada para evitar erros no JUnit launcher.
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.9.0'
 }
 
-// Apply a specific Java toolchain to ease working on different environments.
+// Aplica um Java toolchain para garantir compatibilidade com a versão desejada.
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
+// Define a classe principal do aplicativo.
 application {
-    // Define the main class for the application.
-    mainClass = 'exercises2capinterview.App'
+    mainClass = 'exercises.capinterview.App'
 }
 
+// Configura os testes para rodar com JUnit 5.
 tasks.named('test') {
-    // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }

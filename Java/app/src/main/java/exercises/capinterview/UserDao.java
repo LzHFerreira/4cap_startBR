@@ -1,4 +1,4 @@
-package exercises2capinterview;
+package exercises.capinterview;
 
 import java.util.List;
 
