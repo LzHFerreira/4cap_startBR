@@ -3,16 +3,114 @@
  */
 package exercises.capinterview;
 
-import java.util.logging.Logger;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpServer;
 
 public class Main {
-    private static final Logger logger = Logger.getLogger(Main.class.getName());
 
-    public String getGreeting() {
-        return "Hello World!";
+    private static Map<Integer, User> userMap = new HashMap<>();  
+
+    public static void main(String[] args) throws Exception {
+        HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
+        
+        server.createContext("/users", new UserHandler());
+        server.createContext("/user", new SingleUserHandler());
+
+        server.start();
+        System.out.println("Server started on http://localhost:8000");
     }
 
-    public static void main(String[] args) {
-        logger.info(new Main().getGreeting());
+    static class UserHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            String response;
+            int statusCode;
+
+            switch (exchange.getRequestMethod()) {
+                case "GET":
+                    response = userMap.toString();
+                    statusCode = 200;
+                    break;
+                case "POST":
+                    User user = getRequestBody(exchange);
+                    userMap.put(user.getId(), user);
+                    response = "User added successfully!";
+                    statusCode = 201;
+                    break;
+                default:
+                    response = "Unsupported request method.";
+                    statusCode = 405;
+            }
+
+            exchange.sendResponseHeaders(statusCode, response.getBytes().length);
+            OutputStream os = exchange.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+        }
+    }
+
+    static class SingleUserHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            String response;
+            int statusCode;
+
+            String requestMethod = exchange.getRequestMethod();
+            if ("GET".equals(requestMethod)) {
+                String query = exchange.getRequestURI().getQuery();
+                int userId = Integer.parseInt(query.split("=")[1]);
+                User user = userMap.get(userId);
+
+                if (user != null) {
+                    response = user.toString();
+                    statusCode = 200;
+                } else {
+                    response = "User not found";
+                    statusCode = 404;
+                }
+            } else if ("DELETE".equals(requestMethod)) {
+                String query = exchange.getRequestURI().getQuery();
+                int userId = Integer.parseInt(query.split("=")[1]);
+                userMap.remove(userId);
+                response = "User deleted successfully!";
+                statusCode = 200;
+            } else {
+                response = "Unsupported request method.";
+                statusCode = 405;
+            }
+
+            exchange.sendResponseHeaders(statusCode, response.getBytes().length);
+            OutputStream os = exchange.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+        }
+    }
+
+    private static User getRequestBody(HttpExchange exchange) throws IOException {
+        InputStream is = exchange.getRequestBody();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            sb.append(line);
+        }
+        String requestBody = sb.toString();
+
+        String[] parts = requestBody.replace("{", "").replace("}", "").split(",");
+        int id = Integer.parseInt(parts[0].split(":")[1].trim());
+        String name = parts[1].split(":")[1].trim().replace("\"", "");
+        String email = parts[2].split(":")[1].trim().replace("\"", "");
+
+        return new User(id, name, email);
     }
 }

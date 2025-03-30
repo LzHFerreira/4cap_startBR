@@ -26,6 +26,9 @@ dependencies {
     implementation 'org.slf4j:slf4j-api:2.0.9'
     implementation 'ch.qos.logback:logback-classic:1.4.11'
 
+    implementation 'io.github.cdimascio:dotenv-java:3.2.0'
+    implementation 'com.sparkjava:spark-core:2.9.3'
+
     // ✅ JUnit 5 para testes unitários.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
 
