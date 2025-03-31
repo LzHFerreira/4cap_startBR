@@ -48,10 +48,14 @@ java {
 
 // Define a classe principal do aplicativo.
 application {
-    mainClass = 'exercises.capinterview.App'
+    mainClass = 'exercises.capinterview.Main'
 }
 
 // Configura os testes para rodar com JUnit 5.
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+run {
+    jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=n,suspend=y,address=localhost:62766']
 }
