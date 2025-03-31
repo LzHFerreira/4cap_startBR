@@ -9,8 +9,8 @@ export class UserService {
 
   // Mock user list
   private users = [
-    { id: 1, name: 'John Doe', email: 'john@example.com' },
-    { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
+    { id: 1, name: 'Giuseppe Camole', email: 'giuseppe@exemplo.com' },
+    { id: 2, name: 'Paula Tejano', email: 'paula@exemplo.com' },
   ];
 
   // Get all users (mocked)

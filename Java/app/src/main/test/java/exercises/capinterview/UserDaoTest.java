@@ -23,7 +23,7 @@ class UserDaoTest {
      void setUp() {
         // Mocking the UserDao class and setting up the test scenario
         userDao = mock(UserDao.class);
-        user = new User(1, "John", "john@example.com");
+        user = new User(1, "Giuseppe", "giuseppe@exemplo.com");
     }
 
     @Test
@@ -44,13 +44,13 @@ class UserDaoTest {
         // Run the method and assert the result
         User retrievedUser = userDao.getUser(1);
         assertNotNull(retrievedUser, "User should not be null");
-        assertEquals("John", retrievedUser.getName(), "User name should be John");
+        assertEquals("Giuseppe", retrievedUser.getName(), "User name should be Giuseppe");
     }
 
     @Test
     void testGetAllUsers() {
         // Create a list of users and mock the return value
-        List<User> userList = Arrays.asList(new User(1, "John", "john@example.com"), new User(2, "Jane", "jane@example.com"));
+        List<User> userList = Arrays.asList(new User(1, "Giuseppe", "giuseppe@exemplo.com"), new User(2, "Paula", "paula@examplo.com"));
         when(userDao.getAllUsers()).thenReturn(userList);
 
         // Run the method and verify the result

@@ -1,0 +1,34 @@
+<div *ngIf="successMessage" class="success-card">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Successo</h5>
+      <p class="card-text">Usuário dastrado com sucesso!</p>
+    </div>
+  </div>
+</div>
+
+<div
+  class="flex items-center justify-center min-h-screen bg-gray-900 text-white"
+>
+  <div class="p-8 bg-gray-800 shadow-lg rounded-2xl text-center w-96">
+    <h1 class="text-2xl font-bold mb-6">Bem vindo</h1>
+    <p class="text-gray-400 mb-6">
+      Você pode adicionar um novo usuário ou visualizar a lista de usuários já
+      cadastrados.
+    </p>
+    <div class="flex flex-col gap-4">
+      <button
+        (click)="goToAddUser()"
+        class="block w-full px-4 py-2 text-center bg-blue-600 rounded-lg hover:bg-blue-500 transition"
+      >
+        Adicionar Usuário
+      </button>
+      <button
+        (click)="goToUsers()"
+        class="block w-full px-4 py-2 text-center bg-gray-700 rounded-lg hover:bg-gray-600 transition"
+      >
+        Ver Usuários
+      </button>
+    </div>
+  </div>
+</div>
